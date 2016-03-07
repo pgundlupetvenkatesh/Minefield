@@ -93,3 +93,10 @@ TEST(FieldTest, isSafeInBound)
 	Field minefield;
 	ASSERT_TRUE(minefield.isSafe(4,5) );
 }
+
+TEST(FieldTest, revealAdjacent)
+{
+	Field minefield;
+	minefield.revealAdjacent(4,5);
+	ASSERT_EQ( EMPTY_SHOWN, minefield.get(5,5) );
+}
