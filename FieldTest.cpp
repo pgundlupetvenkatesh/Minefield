@@ -62,6 +62,32 @@ TEST(FieldTest, isSafeOutBound3)
 	ASSERT_TRUE(safe);
 }
 
+TEST(FieldTest, isSafeOutBound4)
+{
+	bool safe = false;
+	Field minefield;
+	try {
+		minefield.isSafe(9,10);
+	}
+	catch (int err) {
+		safe = true;
+	}
+	ASSERT_TRUE(safe);
+}
+
+TEST(FieldTest, isSafeOutBound5)
+{
+	bool safe = false;
+	Field minefield;
+	try {
+		minefield.isSafe(10,9);
+	}
+	catch (int err) {
+		safe = true;
+	}
+	ASSERT_TRUE(safe);
+}
+
 TEST(FieldTest, isSafeInBound)
 {
 	Field minefield;

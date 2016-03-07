@@ -54,9 +54,14 @@ FieldType Field::get(int x, int y)
  	{
  		throw -1;
  	}
- 	else
+ 	else if(_map[x][y] == MINE_HIDDEN || _map[x][y] == MINE_SHOWN)
+  	{
+    		return -1;
+		
+	else {
 		//TODO: Complete this function, isSafe(int,int)
  		return true;
+	}
  }
 
 /**
