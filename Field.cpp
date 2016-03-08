@@ -52,11 +52,11 @@ FieldType Field::get(int x, int y)
  {
 	if(x < 0 || x >= FIELD_DIMENSION || y < 0 || y >= FIELD_DIMENSION)
  	{
- 		throw -1;
+ 		throw "Out of Bound";
  	}
  	else if(_map[x][y] == MINE_HIDDEN || _map[x][y] == MINE_SHOWN)
   	{
-    		return -1;
+    		return false;
 	}	
 	else {
 		//TODO: Complete this function, isSafe(int,int)
@@ -72,20 +72,23 @@ FieldType Field::get(int x, int y)
 void Field::revealAdjacent(int x, int y)
 {
 	//TODO: Complete this function, revealAdjacent(int,int)
-	if(x < 0 || x >= FIELD_DIMENSION || y < 0 || y >= FIELD_DIMENSION)
+	/*if(x < 0 || x >= FIELD_DIMENSION || y < 0 || y >= FIELD_DIMENSION)
  	{
  		throw "Out of bound\n";
  	}
 	if(_map[x][y] == EMPTY_HIDDEN) {
 		_map[x][y] = EMPTY_SHOWN;
-	}
-	else {
-		_map[x][y] = EMPTY_HIDDEN;
-	}
-	if(_map[x+1][y] == EMPTY_HIDDEN) {
-		_map[x+1][y] = EMPTY_SHOWN;
-	}
-	else {
-		_map[x+1][y] = EMPTY_HIDDEN;
-	}
+		if(_map[x+1][y] == 3 && !(x+1 < 0 || x+1 >= FIELD_DIMENSION)) {
+			_map[x+1][y] = EMPTY_SHOWN;
+		}
+		if(_map[x-1][y] == 3 && !(x-1 < 0 || x-1 >= FIELD_DIMENSION)) {
+			_map[x-1][y] = EMPTY_SHOWN;
+		}
+		if(_map[x][y+1] == 3 && !(y+1 < 0 || y+1 >= FIELD_DIMENSION)) {
+			_map[x][y+1] = EMPTY_SHOWN;
+		}
+		if(_map[x][y-1] == 3 && !(y-1 < 0 || y-1 >= FIELD_DIMENSION)) {
+			_map[x][y-1] = EMPTY_SHOWN;
+		}
+	}*/
 }
