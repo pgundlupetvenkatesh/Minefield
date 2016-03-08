@@ -172,26 +172,107 @@ TEST(FieldTest, isSafeInBoundSafePlaceMinePositiveisSafe_0)
 	ASSERT_TRUE(minefield.isSafe(0,0) );
 }
 
-
-
-/*TEST(FieldTest, revealAdjacent1)
+TEST(FieldTest, revealAdjacent_InRange_Positive)
 {
 	Field minefield;
 	minefield.revealAdjacent(4,5);
-	ASSERT_EQ(2, minefield.get(5,5) );
+	ASSERT_EQ(EMPTY_SHOWN, minefield.get(5,5) );
 }
 
-TEST(FieldTest, revealAdjacent2)
-{
-	Field minefield;
-//	minefield.placeMine(5,5);
-	minefield.revealAdjacent(5,5);
-	ASSERT_EQ( 2,minefield.get(5,5) );
-}
-
-TEST(FieldTest, revealAdjacent3)
+TEST(FieldTest, revealAdjacent_InRange_Positive_same)
 {
 	Field minefield;
 	minefield.revealAdjacent(5,5);
-	ASSERT_EQ( 2,minefield.get(4,5) );
-}*/
+	ASSERT_EQ(EMPTY_SHOWN,minefield.get(5,5) );
+}
+
+TEST(FieldTest, revealAdjacent_InRange_Same_Positive)
+{
+	Field minefield;
+	minefield.revealAdjacent(5,5);
+	ASSERT_EQ(EMPTY_SHOWN,minefield.get(4,5) );
+}
+
+TEST(FieldTest, revealAdjacent_OutOfRange)
+{
+	Field minefield;
+	bool reveal = false;
+	try {
+		minefield.revealAdjacent(10,10);
+		minefield.get(10,10);
+	}
+	catch(...) {
+		reveal = true;
+	}
+	ASSERT_TRUE(reveal);
+}
+
+TEST(FieldTest, revealAdjacent_X_OutOfRange)
+{
+	Field minefield;
+	bool reveal = false;
+	try {
+		minefield.revealAdjacent(10,1);
+		minefield.get(10,1);
+	}
+	catch(...) {
+		reveal = true;
+	}
+	ASSERT_TRUE(reveal);
+}
+
+TEST(FieldTest, revealAdjacent_Y_OutOfRange)
+{
+	Field minefield;
+	bool reveal = false;
+	try {
+		minefield.revealAdjacent(1,11);
+		minefield.get(1,11);
+	}
+	catch(...) {
+		reveal = true;
+	}
+	ASSERT_TRUE(reveal);
+}
+
+TEST(FieldTest, revealAdjacent_Negative)
+{
+	Field minefield;
+	bool reveal = false;
+	try {
+		minefield.revealAdjacent(-1,-2);
+		minefield.get(-1,-2);
+	}
+	catch(...) {
+		reveal = true;
+	}
+	ASSERT_TRUE(reveal);
+}
+
+TEST(FieldTest, revealAdjacent_X_Negative)
+{
+	Field minefield;
+	bool reveal = false;
+	try {
+		minefield.revealAdjacent(-1,1);
+		minefield.get(-1,2);
+	}
+	catch(...) {
+		reveal = true;
+	}
+	ASSERT_TRUE(reveal);
+}
+
+TEST(FieldTest, revealAdjacent_Y_Negative)
+{
+	Field minefield;
+	bool reveal = false;
+	try {
+		minefield.revealAdjacent(1,-2);
+		minefield.get(1,-2);
+	}
+	catch(...) {
+		reveal = true;
+	}
+	ASSERT_TRUE(reveal);
+}
