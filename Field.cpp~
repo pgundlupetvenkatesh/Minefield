@@ -43,8 +43,6 @@ FieldType Field::get(int x, int y)
 {
 	if(inBounds(x, y))
  		return _map[x][y];
-	else
-		throw "out of bound";
 }
 
 /**

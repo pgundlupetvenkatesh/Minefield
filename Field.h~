@@ -23,7 +23,7 @@ class Field
 		FieldType get(int,int);
 		void revealAdjacent(int, int);
 		void placeMine(int, int);
-		bool inBounds(int, int);
+		bool inBounds(int, int)
 		
 
 	private:
