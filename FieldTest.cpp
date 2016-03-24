@@ -25,14 +25,14 @@ TEST(FieldTest, placeMineInBounds)
 
 TEST(FieldTest, isSafeOutBoundPlacePasitiveSafeOutOFRange)
 {
-	bool safe = false;
+	bool safe = true;
 	Field minefield;
 	try {
 		minefield.placeMine(9,2);
 		minefield.isSafe(11,10);
 	}
 	catch (...) {
-		safe = true;
+		safe = false;
 	}
 	ASSERT_TRUE(safe);
 }
@@ -40,14 +40,14 @@ TEST(FieldTest, isSafeOutBoundPlacePasitiveSafeOutOFRange)
 
 TEST(FieldTest, isSafeOutBoundPlaceOutOfRangeSafePositive)
 {
-	bool safe = false;
+	bool safe = true;
 	Field minefield;
 	try {
 		minefield.placeMine(10,10);
 		minefield.isSafe(2,9);
 	}
 	catch (...) {
-		safe = true;
+		safe = false;
 	}
 	ASSERT_TRUE(safe);
 }
@@ -55,84 +55,84 @@ TEST(FieldTest, isSafeOutBoundPlaceOutOfRangeSafePositive)
 
 TEST(FieldTest, isSafeOutBound_X_Y_Negative)
 {
-	bool safe = false;
+	bool safe = true;
 	Field minefield;
 	try {
 		minefield.placeMine(-1,-1);
 		minefield.isSafe(-1,-1);
 	}
 	catch (...) {
-		safe = true;
+		safe = false;
 	}
 	ASSERT_TRUE(safe);
 }
 
 TEST(FieldTest, isSafeOutBound_X_Negative)
 {
-	bool safe = false;
+	bool safe = true;
 	Field minefield;
 	try {
 		minefield.placeMine(-1,1);
 		minefield.isSafe(-1,1);
 	}
 	catch (...) {
-		safe = true;
+		safe = false;
 	}
 	ASSERT_TRUE(safe);
 }
 
 TEST(FieldTest, isSafeOutBound_Y_Negative)
 {
-	bool safe = false;
+	bool safe = true;
 	Field minefield;
 	try {
 		minefield.placeMine(1,-1);
 		minefield.isSafe(1,-1);
 	}
 	catch (...) {
-		safe = true;
+		safe = false;
 	}
 	ASSERT_TRUE(safe);
 }
 
 TEST(FieldTest, isSafeOutBound_X_OutOfRange)
 {
-	bool safe = false;
+	bool safe = true;
 	Field minefield;
 	try {
 		minefield.placeMine(10,9);
 		minefield.isSafe(10,9);
 	}
 	catch (...) {
-		safe = true;
+		safe = false;
 	}
 	ASSERT_TRUE(safe);
 }
 
 TEST(FieldTest, isSafeOutBound_Y_OutOfRange)
 {
-	bool safe = false;
+	bool safe = true;
 	Field minefield;
 	try {
 		minefield.placeMine(9,10);
 		minefield.isSafe(9,10);
 	}
 	catch (...) {
-		safe = true;
+		safe = false;
 	}
 	ASSERT_TRUE(safe);
 }
 
 TEST(FieldTest, isSafeOutBoundX_YOutOfRange)
 {
-	bool safe = false;
+	bool safe = true;
 	Field minefield;
 	try {
 		minefield.placeMine(10,10);
 		minefield.isSafe(10,10);
 	}
 	catch (...) {
-		safe = true;
+		safe = false;
 	}
 	ASSERT_TRUE(safe);
 }
@@ -172,11 +172,35 @@ TEST(FieldTest, isSafeInBoundSafePlaceMinePositiveisSafe_0)
 	ASSERT_TRUE(minefield.isSafe(0,0) );
 }
 
+TEST(FieldTest, revealAdjacent_MineHiddenInRangeSame)
+{
+	Field minefield;
+	minefield.placeMine(2,4);
+	minefield.revealAdjacent(2,4);
+	ASSERT_EQ(MINE_HIDDEN, minefield.get(2,4) );
+}
+
+TEST(FieldTest, revealAdjacent_MineHiddenInRange)
+{
+	Field minefield;
+	minefield.placeMine(3,5);
+	minefield.revealAdjacent(3,6);
+	ASSERT_EQ(MINE_HIDDEN, minefield.get(3,5) );
+}
+
+TEST(FieldTest, revealAdjacent_MineShownInRange_same)
+{
+	Field minefield;
+	minefield.placeMineShowMine(5,6);
+	minefield.revealAdjacent(5,6);
+	ASSERT_EQ(MINE_SHOWN, minefield.get(5,6) );
+}
+
 TEST(FieldTest, revealAdjacent_InRange_Positive)
 {
 	Field minefield;
 	minefield.revealAdjacent(4,5);
-	ASSERT_EQ(EMPTY_SHOWN, minefield.get(5,5) );
+	ASSERT_EQ(EMPTY_SHOWN, minefield.get(4,6) );
 }
 
 TEST(FieldTest, revealAdjacent_InRange_Positive_same)
@@ -205,6 +229,36 @@ TEST(FieldTest, revealAdjacent_OutOfRange)
 		reveal = true;
 	}
 	ASSERT_TRUE(reveal);
+}
+
+TEST(FieldTest, revealAdjacent_MineShownInRange)
+{
+	Field minefield;
+	bool reveal = false;
+	try {
+		minefield.placeMineShowMine(3,4);
+		minefield.revealAdjacent(3,4);
+		minefield.get(3,5);
+	}
+	catch(...) {
+		reveal = true;
+	}
+	ASSERT_FALSE(reveal);
+}
+
+TEST(FieldTest, revealAdjacent_MineHiddenOutOfRange)
+{
+	Field minefield;
+	bool reveal = false;
+	try {
+		minefield.placeMine(-1,5);
+		minefield.revealAdjacent(3,6);
+		minefield.get(-3,5);
+	}
+	catch(...) {
+		reveal = true;
+	}
+		ASSERT_TRUE(reveal);
 }
 
 TEST(FieldTest, revealAdjacent_X_OutOfRange)
@@ -273,6 +327,34 @@ TEST(FieldTest, revealAdjacent_Y_Negative)
 	}
 	catch(...) {
 		reveal = true;
+	}
+	ASSERT_TRUE(reveal);
+}
+
+TEST(FieldTest, revealAdjacent_X0_Y0)
+{
+	Field minefield;
+	bool reveal = true;
+	try {
+		minefield.revealAdjacent(0,0);
+		minefield.get(0,0);
+	}
+	catch(...) {
+		reveal = false;
+	}
+	ASSERT_TRUE(reveal);
+}
+
+TEST(FieldTest, revealAdjacent_X0_Y0_getInRangePositive)
+{
+	Field minefield;
+	bool reveal = true;
+	try {
+		minefield.revealAdjacent(0,0);
+		minefield.get(1,2);
+	}
+	catch(...) {
+		reveal = false;
 	}
 	ASSERT_TRUE(reveal);
 }

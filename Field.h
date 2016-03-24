@@ -9,10 +9,10 @@
 **/
 enum FieldType
 {
-	MINE_SHOWN,
-	MINE_HIDDEN,
-	EMPTY_SHOWN,
-	EMPTY_HIDDEN
+	MINE_SHOWN,	//0
+	MINE_HIDDEN,	//1
+	EMPTY_SHOWN,	//2
+	EMPTY_HIDDEN	//3
 };
 
 class Field
@@ -23,9 +23,11 @@ class Field
 		FieldType get(int,int);
 		void revealAdjacent(int, int);
 		void placeMine(int, int);
+		void placeMineShowMine(int, int);
 		
 
 	private:
+		bool inBounds(int, int);
 		static const int FIELD_DIMENSION = 10;
 		std::vector< std::vector<FieldType> > _map;	
 };

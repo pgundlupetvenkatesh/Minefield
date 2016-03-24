@@ -18,17 +18,28 @@
  	}
  }
 
+bool Field::inBounds(int x, int y) {
+	if(x < 0 || x >= FIELD_DIMENSION || y < 0 || y >= FIELD_DIMENSION)
+ 	{
+ 		return false;
+ 	}
+ 	else
+		return true;
+}
+
  /**
   * Places a mine at the x,y coordinate in the field
  **/
  void Field::placeMine(int x, int y)
  {
- 	if(x < 0 || x >= FIELD_DIMENSION || y < 0 || y >= FIELD_DIMENSION)
- 	{
- 		throw "Out of bounds";
- 	}
- 	else
+ 	if(inBounds(x, y))
  		_map[x][y] = MINE_HIDDEN;
+ }
+
+void Field::placeMineShowMine(int x, int y)
+ {
+ 	if(inBounds(x, y))
+ 		_map[x][y] = MINE_SHOWN;
  }
 
 /**
@@ -36,12 +47,12 @@
 **/
 FieldType Field::get(int x, int y)
 {
-	if(x < 0 || x >= FIELD_DIMENSION || y < 0 || y >= FIELD_DIMENSION)
+	if(inBounds(x, y))
  	{
- 		throw "Out of bounds";
+ 		return _map[x][y];
  	}
  	else
- 		return _map[x][y];
+ 		throw "Out of bounds";
 }
 
 /**
@@ -50,11 +61,7 @@ FieldType Field::get(int x, int y)
 **/
  bool Field::isSafe(int x, int y)
  {
-	if(x < 0 || x >= FIELD_DIMENSION || y < 0 || y >= FIELD_DIMENSION)
- 	{
- 		throw "Out of Bound";
- 	}
- 	else if(_map[x][y] == MINE_HIDDEN || _map[x][y] == MINE_SHOWN)
+ 	if(inBounds(x, y) && (_map[x][y] == MINE_HIDDEN || _map[x][y] == MINE_SHOWN))
   	{
     		return false;
 	}	
@@ -72,26 +79,15 @@ FieldType Field::get(int x, int y)
 void Field::revealAdjacent(int x, int y)
 {
 	//TODO: Complete this function, revealAdjacent(int,int)
-	if(x < 0 || x >= FIELD_DIMENSION || y < 0 || y >= FIELD_DIMENSION)
+	if(!inBounds(x, y) || _map[x][y] == MINE_HIDDEN || _map[x][y] == MINE_SHOWN)
  	{
- 		throw "Out of bound\n";
+ 		return;
  	}
-	if(_map[x][y] == 3) {
+	else if (_map[x][y] == EMPTY_HIDDEN) {
 		_map[x][y] = EMPTY_SHOWN;
-		if(_map[x+1][y] == 3 && !(x+1 < 0 || x+1 >= FIELD_DIMENSION)) {
-			_map[x+1][y] = EMPTY_SHOWN;
-		}
-		if(_map[x-1][y] == 3 && !(x-1 < 0 || x-1 >= FIELD_DIMENSION)) {
-			_map[x-1][y] = EMPTY_SHOWN;
-		}
-		if(_map[x][y+1] == 3 && !(y+1 < 0 || y+1 >= FIELD_DIMENSION)) {
-			_map[x][y+1] = EMPTY_SHOWN;
-		}
-		if(_map[x][y-1] == 3 && !(y-1 < 0 || y-1 >= FIELD_DIMENSION)) {
-			_map[x][y-1] = EMPTY_SHOWN;
-		}
-	}
-	else {
-		_map[x][y] = EMPTY_HIDDEN;
+		revealAdjacent(x-1, y);
+		revealAdjacent(x, y-1);
+		revealAdjacent(x+1, y);
+		revealAdjacent(x, y+1);
 	}
 }
