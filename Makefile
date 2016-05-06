@@ -4,10 +4,11 @@
 
 # Points to the root of Google Test. Change it to reflect where your
 # clone of the googletest repo is
-GTEST_DIR = /usr/local/include/gtest
+#GTEST_DIR = /usr/local/include/googletest/googletest
+GTEST_DIR = googletest/googletest
 
 # Flags passed to the preprocessor and compiler
-CPPFLAGS += --coverage -isystem $(GTEST_DIR)/include
+CPPFLAGS += --coverage -isystem $(GTEST_DIR)/include -O0
 CXXFLAGS += -g -Wall -Wextra -pthread
 
 # All tests produced by this Makefile.
